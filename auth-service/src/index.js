@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 
 // Middlewares
-const logger = require("./middleware/logger");
+const logger = require("./middlewares/logger");
 const errorHandler = require("./middlewares/error.handler");
 
 // Rutas
