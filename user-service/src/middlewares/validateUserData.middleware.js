@@ -1,9 +1,9 @@
 const validateUserData = (req, res, next) => {
-    const { email, nombre } = req.body;
+    const { email, name } = req.body;
 
-    if (!email || !nombre) {
+    if (!email || !name) {
         return res.status(400).json({
-            error: 'Email y nombre son requeridos'
+            error: 'Email and name are required'
         });
     }
 
@@ -11,7 +11,7 @@ const validateUserData = (req, res, next) => {
 
     if (!emailRegex.test(email)) {
         return res.status(400).json({
-            error: 'Email inválido'
+            error: 'invalid email format'
         });
     }
 
