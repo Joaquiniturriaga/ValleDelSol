@@ -1,10 +1,17 @@
 const express = require('express');
+const {
+    createReport,
+    getReports
+}=require('../middleware/validateToken.middleware');
+
+const { validateToken } = require('../middleware/validateToken.middleware');
 
 const router = express.Router();
 
-const controller = require('../controllers/reportController');
+//crear reporte incendio;
 
-router.post('/', controller.create);
-router.get('/', controller.getAll);
+router.post('/', validateToken, createReport);
+
+router.get('/', validateToken,createReport);
 
 module.exports = router;

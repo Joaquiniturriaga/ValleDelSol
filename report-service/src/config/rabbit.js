@@ -3,9 +3,10 @@ const amqp = require('amqplib');
 let channel;
 
 const connectRabbit = async()=>{
-    const conn = await amqp.connect('amqp://rabbitmq');
+    const conn = await amqp.connect(process.env.RABBIT_URL);
     channel = await conn.createChannel();
-    await channel.assertQueue('reports');
+    await channel.assertQueue('reports_queue');
+    console.log('RabbiosoMQ connected');
 };
 
 const getChannel = () =>channel;

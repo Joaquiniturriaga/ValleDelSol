@@ -1,16 +1,25 @@
+require('dotenv').config();
 const express = require('express');
-const {connectRabbit} = require('./config/rabbit');
-const reportRoutes = require('./routes/reportRoutes');
+
+const reportRoutes = require('./middleware/validateToken.middleware');
+const { connectRabbit } = require('./config/rabbit');
 
 const app = express();
-app.use(express.json);
 
-app.use('/api/reports', reportRoutes);
+//rutas
 
+app.use('/api', reportRoutes);
 
-connectRabbit();
+app.get('/', (req,res)=>{
+    res,send('Report service running');
+});
 
-app.listen(3000, () =>{
-    console.log('report service runnig')
-    
-} );
+const startServer = async( )=>{
+    await connectRabbit();
+
+    app.listen(3002, ()=>{
+        console.log('Report service in port 3002');
+    });
+};
+
+startServer();

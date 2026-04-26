@@ -6,7 +6,7 @@ exports.create = async(report) =>{
         VALUES($1,$2,$3,$4,$5)
         RETURNING *`,
 
-        [report.title, report.description, report.lat, report.lng, 'ACTIVATE']
+        [report.title, report.description, report.lat, report.lng, 'ACTIVE']
         
         
     );

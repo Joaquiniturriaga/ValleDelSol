@@ -1,11 +1,26 @@
 const reportService = require('../services/reportService');
 
-exports.create = async(req , res) =>{
-    const report = await reportService.createReport(req.body);
-    res.status(201).json(report);
+const createReport = async(req, res )=>{
+    try {
+        const report = await reportService.createReport(
+            req.body,
+            req.status
+        );
+
+        res.status(201).json(report);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+        
+        
+    }
 };
 
-exports.getAll = async(req, res) => {
-    const reports = await reportService.getReports();
-    req.json(reports);
+const getReports=(req,res)=>{
+    const reports= reportService.getReports();
+    res.json(reports);
+};
+
+module.exports = {
+    createReport,
+    getReports
 };

@@ -1,21 +1,28 @@
-const Report = require('../models/reportModel');
+const reportModel = require('../models/reportModel');
+const { publishReport } = require('../events/publisher');
 
-const {publishEvent} = require('../events/publisher');
+const createReport = async (data, user) => {
+    const newReport = {
+        title: data.title,
+        description: data.description,
+        lat: data.lat,
+        lng: data.lng
+    };
 
-exports.createReport = async(data) =>{
-    //guardamos en database
-    const report = await Report.create(data);
+    // guardardamos  en DB
+    const savedReport = await reportModel.create(newReport);
 
-    //emitimos evento
+    //enviamos a RabbitMQ
+    await publishReport(savedReport);
 
-    await publishEvent('report.created', report);
-
-    return report;
+    return savedReport;
 };
 
-exports.getReports = async ()=>{
-    return await Report.findAll();
+const getReports = async () => {
+    return await reportModel.findAll();
 };
 
-//La capa service tiene toda la logica... asi evitamos tener todo junto (acoplamiento) en controllers etc
-
+module.exports = {
+    createReport,
+    getReports
+};

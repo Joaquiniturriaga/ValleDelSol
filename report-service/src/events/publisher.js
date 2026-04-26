@@ -1,11 +1,13 @@
-const { getChannel} = require('../config/db');
+const { getChannel} = require('../config/rabbit');
 
-exports.publishEvent = async(event, data) =>{
-    const channel = getChannel();
-
+const publishReport = async (report) =>{
+    const channel ; getChannel();
 
     channel.sendToqueque(
-        'reports',
-        Buffer.from(JSON.stringify({event, data}))
+        'reports_queue',
+        Buffer.from(JSON.stringify(report))
     );
+    console.log('Report send to queue');
 };
+
+module.exports = { publishReport };
